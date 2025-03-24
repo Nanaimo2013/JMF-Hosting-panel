@@ -8,6 +8,8 @@ interface Props {
     size?: 'xsmall' | 'small' | 'large' | 'xlarge';
     color?: 'green' | 'red' | 'primary' | 'grey';
     isSecondary?: boolean;
+    isDanger?: boolean;
+    children?: React.ReactNode;
 }
 
 const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`

@@ -113,10 +113,12 @@ export const getFileIcon = (filename: string): string => {
     return `fas ${icons[ext] || 'fa-file'}`;
 };
 
+type Theme = 'JMF Hosting';
+
 export const useTheme = () => {
     const [theme, setTheme] = useLocalStorage('theme', JmfConfig.name);
 
-    const updateTheme = (newTheme: string) => {
+    const updateTheme = (newTheme: Theme) => {
         setTheme(newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
     };
@@ -138,4 +140,4 @@ export const useSidebar = () => {
     };
 
     return { isMinimized, width, toggleSidebar };
-}; 
+};

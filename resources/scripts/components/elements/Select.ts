@@ -1,12 +1,13 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
 interface Props {
     hideDropdownArrow?: boolean;
+    children?: React.ReactNode;
 }
 
-const StyledSelect = styled.select<Props>`
+const Select = styled.select<Props>`
     ${tw`block w-full p-2 bg-neutral-700 border-2 border-neutral-600 rounded text-sm text-neutral-200 appearance-none hover:border-neutral-500 transition-colors duration-150`};
     
     &:not(:disabled) {
@@ -28,11 +29,4 @@ const StyledSelect = styled.select<Props>`
     }
 `;
 
-const Select: React.FC<PropsWithChildren<Props & React.SelectHTMLAttributes<HTMLSelectElement>>> = ({ children, ...props }) => (
-    <div css={tw`relative`}>
-        <StyledSelect {...props}>{children}</StyledSelect>
-        <div className="arrow">▼</div>
-    </div>
-);
-
-export default Select;
+export default Select; 

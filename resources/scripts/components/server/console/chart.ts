@@ -7,56 +7,48 @@ import {
     LinearScale,
     LineElement,
     PointElement,
+    TimeScale,
 } from 'chart.js';
 import { DeepPartial } from 'ts-essentials';
 import { useState } from 'react';
-import { deepmerge, deepmergeCustom } from 'deepmerge-ts';
+import { deepmerge } from 'deepmerge-ts';
 import { theme } from 'twin.macro';
 import { hexToRgba } from '@/lib/helpers';
+import 'chartjs-adapter-moment';
 
-ChartJS.register(LineElement, PointElement, Filler, LinearScale);
+ChartJS.register(LineElement, PointElement, Filler, LinearScale, TimeScale);
 
-const options: ChartOptions<'line'> = {
+const defaultOptions: ChartOptions<'line'> = {
     responsive: true,
-    animation: false,
-    plugins: {
-        legend: { display: false },
-        title: { display: false },
-        tooltip: { enabled: false },
+    maintainAspectRatio: false,
+    animation: {
+        duration: 0,
     },
-    layout: {
-        padding: 0,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        tooltip: {
+            enabled: false,
+        },
     },
     scales: {
         x: {
-            min: 0,
-            max: 19,
-            type: 'linear',
+            type: 'time',
+            time: {
+                unit: 'second',
+            },
             grid: {
                 display: false,
-                drawBorder: false,
             },
             ticks: {
                 display: false,
             },
         },
         y: {
-            min: 0,
-            type: 'linear',
+            beginAtZero: true,
             grid: {
-                display: true,
-                color: theme('colors.gray.700'),
-                drawBorder: false,
-            },
-            ticks: {
-                display: true,
-                count: 3,
-                color: theme('colors.gray.200'),
-                font: {
-                    family: theme('fontFamily.sans'),
-                    size: 11,
-                    weight: '400',
-                },
+                display: false,
             },
         },
     },
@@ -65,24 +57,22 @@ const options: ChartOptions<'line'> = {
             radius: 0,
         },
         line: {
-            tension: 0.15,
+            tension: 0.3,
         },
     },
 };
 
-function getOptions(opts?: DeepPartial<ChartOptions<'line'>> | undefined): ChartOptions<'line'> {
-    return deepmerge(options, opts || {});
+function getOptions(opts?: DeepPartial<ChartOptions<'line'>>): ChartOptions<'line'> {
+    return deepmerge(defaultOptions, opts || {}) as ChartOptions<'line'>;
 }
 
 type ChartDatasetCallback = (value: ChartDataset<'line'>, index: number) => ChartDataset<'line'>;
 
-function getEmptyData(label: string, sets = 1, callback?: ChartDatasetCallback | undefined): ChartData<'line'> {
+function getEmptyData(label: string, sets = 1, callback?: ChartDatasetCallback): ChartData<'line'> {
     const next = callback || ((value) => value);
 
     return {
-        labels: Array(20)
-            .fill(0)
-            .map((_, index) => index),
+        labels: Array(20).fill(0).map((_, index) => index),
         datasets: Array(sets)
             .fill(0)
             .map((_, index) =>
@@ -100,12 +90,10 @@ function getEmptyData(label: string, sets = 1, callback?: ChartDatasetCallback |
     };
 }
 
-const merge = deepmergeCustom({ mergeArrays: false });
-
 interface UseChartOptions {
-    sets: number;
-    options?: DeepPartial<ChartOptions<'line'>> | number | undefined;
-    callback?: ChartDatasetCallback | undefined;
+    sets?: number;
+    options?: DeepPartial<ChartOptions<'line'>> | number;
+    callback?: ChartDatasetCallback;
 }
 
 function useChart(label: string, opts?: UseChartOptions) {
@@ -116,7 +104,7 @@ function useChart(label: string, opts?: UseChartOptions) {
 
     const push = (items: number | null | (number | null)[]) =>
         setData((state) =>
-            merge(state, {
+            deepmerge(state, {
                 datasets: (Array.isArray(items) ? items : [items]).map((item, index) => ({
                     ...state.datasets[index],
                     data: state.datasets[index].data
@@ -128,7 +116,7 @@ function useChart(label: string, opts?: UseChartOptions) {
 
     const clear = () =>
         setData((state) =>
-            merge(state, {
+            deepmerge(state, {
                 datasets: state.datasets.map((value) => ({
                     ...value,
                     data: Array(20).fill(-5),
@@ -158,3 +146,4 @@ function useChartTickLabel(label: string, max: number, tickLabel: string, roundT
 }
 
 export { useChart, useChartTickLabel, getOptions, getEmptyData };
+
