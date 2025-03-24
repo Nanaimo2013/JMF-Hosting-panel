@@ -1,3 +1,5 @@
+cursor/
+
 /vendor
 *.DS_Store*
 !.env.ci

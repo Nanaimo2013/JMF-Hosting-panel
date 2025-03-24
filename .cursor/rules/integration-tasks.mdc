@@ -1,0 +1,76 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# JMF Hosting Panel Integration Tasks
+
+## Task Priorities
+Follow this implementation sequence for the integration:
+
+1. **CSS Variables & Base Styling**
+2. **Sidebar Component**
+3. **Console View**
+4. **Statistics Graphs**
+5. **File Manager Enhancements**
+
+## CSS Integration Tasks
+- [ ] Extract CSS variables from [preview.html](mdc:preview.html) to [pterodactyl.css](mdc:public/themes/pterodactyl/css/pterodactyl.css)
+- [ ] Implement custom scrollbar styles
+- [ ] Add button and input styling
+- [ ] Create component-specific styles
+- [ ] Implement responsive breakpoints
+
+## Sidebar Implementation Tasks
+- [ ] Update @resources/views/partials/sidebar.blade.php
+- [ ] Add collapsible functionality
+- [ ] Implement server stats with progress bars
+- [ ] Add power control buttons
+- [ ] Connect to resource utilization API
+- [ ] Create sidebar.js for toggle behavior
+
+## Console View Tasks
+- [ ] Enhance @resources/views/server/console.blade.php
+- [ ] Add statistics header with resource meters
+- [ ] Implement fullscreen toggle
+- [ ] Style console output with color coding
+- [ ] Add command input styling
+- [ ] Connect to WebSocket for live updates
+
+## Statistics Graph Tasks
+- [ ] Create chart container components
+- [ ] Implement Chart.js for CPU usage
+- [ ] Add memory usage visualization
+- [ ] Create network traffic graph
+- [ ] Implement storage usage chart
+- [ ] Connect all charts to resource API
+
+## File Manager Tasks
+- [ ] Update @index
+- [ ] Add grid/list view toggle
+- [ ] Enhance upload progress visualization
+- [ ] Implement file cards with icons
+- [ ] Add search functionality
+- [ ] Connect to file management API
+
+## JavaScript Implementation Tasks
+- [ ] Create charts.js for statistics visualization
+- [ ] Enhance console.js with new functionality
+- [ ] Implement sidebar.js for responsive behavior
+- [ ] Update filemanager.js with new features
+- [ ] Create shared utils.js for common functions
+
+## Dependencies to Add
+- [ ] Add Chart.js to @resources/views/layouts/admin.blade.php
+- [ ] Upgrade FontAwesome from 4.7 to 6
+- [ ] Ensure TailwindCSS is properly integrated
+
+## Testing Checklist
+- [ ] Verify responsive behavior on different device sizes
+- [ ] Test WebSocket connections
+- [ ] Validate server control functionality
+- [ ] Test file manager operations
+- [ ] Check browser compatibility (Chrome, Firefox, Safari)
+
+## Technical Reference
+For detailed task specifications, see [JMF-Technical-Details.txt](mdc:cursor/JMF-Technical-Details.txt)

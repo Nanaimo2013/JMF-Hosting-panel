@@ -1,0 +1,81 @@
+# JMF Hosting Panel Theme Implementation
+
+## Theme Variables
+Extract these CSS variables from @preview.html:
+```css
+:root {
+    --primary: #1a1c23;    /* Background color */
+    --secondary: #2d3748;  /* Element background */
+    --accent: #3182ce;     /* Highlights, buttons */
+    --text: #e2e8f0;       /* Main text color */
+    --success: #48bb78;    /* Success indicators */
+    --danger: #f56565;     /* Error/danger actions */
+    --warning: #ed8936;    /* Warning indicators */
+}
+```
+
+## Custom Scrollbars
+Implement these custom scrollbar styles from @preview.html:
+```css
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) rgba(45, 55, 72, 0.3);
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(45, 55, 72, 0.3);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+```
+
+## Target Files for Theme Integration
+- **Main CSS**: @public/themes/pterodactyl/css/pterodactyl.css
+- **Layout Template**: @resources/views/layouts/admin.blade.php
+- **Dependencies**: 
+  - FontAwesome 6 (upgrade from 4.7)
+  - Chart.js for statistics
+  - TailwindCSS integration
+
+## Component-Specific Styling
+Each component should maintain consistent styling:
+- Use CSS variables for colors
+- Implement consistent border-radius (0.5rem for containers, 0.375rem for buttons)
+- Add hover effects with transitions (0.2s ease)
+- Use consistent shadows for elevation
+
+## Responsive Design Breakpoints
+- **Mobile**: < 640px
+  - Collapsed sidebar
+  - Single column layout
+  - Simplified controls
+- **Tablet**: 641px - 1024px
+  - Compact sidebar
+  - Optimized layout with fewer columns
+- **Desktop**: > 1024px
+  - Full UI with expanded sidebar
+  - Multi-column layout
+
+## Animation Guidelines
+- Transitions should be 0.2s-0.3s for UI elements
+- Use ease or ease-in-out timing functions
+- Implement subtle scale effects for buttons (0.95 scale on click)
+- Add slide transitions for sidebar collapse/expand
+
+## Implementation Priority
+1. Base variables and global styles
+2. Component-specific styles
+3. Responsive adaptations
+4. Animations and transitions
+
+## Technical Reference
+For detailed theme implementation guide, see @cursor/JMF-Theme-Integration.txt 

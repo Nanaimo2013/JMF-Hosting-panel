@@ -1,0 +1,77 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# JMF Hosting Panel UI Components
+
+## Component Architecture
+All UI components should follow these principles:
+- Responsive design for mobile, tablet, and desktop
+- Dark theme with consistent color variables
+- Real-time data updates where applicable
+- Proper error handling and loading states
+- Accessibility considerations (ARIA attributes)
+
+## Sidebar Component
+- **Source**: [preview.html](mdc:preview.html) (lines 200-500)
+- **Target**: @resources/views/partials/sidebar.blade.php
+- **Features**:
+  - Collapsible sidebar with toggle button
+  - Server stats with CPU/RAM/Storage meters
+  - Navigation menu with icon buttons
+  - Server power controls (start/restart/stop)
+- **Integration Notes**:
+  - Connect to ResourceUtilizationController for stats
+  - Use WebSockets for real-time updates
+  - Implement responsive collapse for mobile
+
+## Console Component
+- **Source**: [preview.html](mdc:preview.html) (lines 800-1100)
+- **Target**: [index.blade.php](mdc:resources/views/admin/index.blade.php)
+- **Features**:
+  - Terminal output with syntax highlighting
+  - Command input with history
+  - Fullscreen toggle functionality
+  - Resource usage indicators in header
+- **Integration Notes**:
+  - Connect to WebSocketController for live console
+  - Implement command history in localStorage
+  - Add fullscreen toggle with proper keyboard handling
+
+## Statistics Graphs
+- **Source**: [preview.html](mdc:preview.html) (lines 1100-1400)
+- **Target**: Create new component files
+- **Features**:
+  - CPU usage line graph (Chart.js)
+  - Memory usage area chart
+  - Network traffic bar chart
+  - Storage usage breakdown
+- **Integration Notes**:
+  - Use Chart.js for all visualizations
+  - Connect to ResourceUtilizationController
+  - Implement 15-minute rolling window
+  - Add data point tooltips
+
+## File Manager
+- **Source**: [preview.html](mdc:preview.html) (lines 1500-1900)
+- **Target**: @resource/
+- **Features**:
+  - Grid/list view toggle
+  - Drag & drop upload with progress
+  - File operation buttons
+  - Search functionality
+- **Integration Notes**:
+  - Connect to FileController for operations
+  - Implement chunked uploads for large files
+  - Add file type icons and preview capabilities
+
+## Shared UI Elements
+- Custom scrollbars from @preview.html (lines 20-40)
+- Button styles with hover effects
+- Progress bars with animated fills
+- Modal dialogs and tooltips
+- Status indicators and badges
+
+## Technical Reference
+For detailed implementation specifications, see @cursor/JMF-Components.txt 

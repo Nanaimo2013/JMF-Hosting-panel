@@ -1,0 +1,102 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# JMF Hosting Panel Technical Integration
+
+## Backend Integration Points
+These controllers handle the key functionality needed for the UI:
+
+```php
+// Server resource stats (CPU, memory, disk)
+@app/Http/Controllers/Api/Client/Servers/ResourceUtilizationController.php
+
+// Real-time console output
+@app/Http/Controllers/Api/Client/Servers/WebSocketController.php
+
+// File management operations
+@app/Http/Controllers/Api/Client/Servers/FileController.php
+
+// Server power actions (start, stop, restart)
+@app/Http/Controllers/Api/Client/Servers/PowerController.php
+```
+
+## API Endpoints
+The frontend components will connect to these RESTful API endpoints:
+
+```
+// Server resource utilization
+GET /api/client/servers/{server}/resources
+
+// Server power management
+POST /api/client/servers/{server}/power/{action}
+
+// File operations
+GET /api/client/servers/{server}/files/list
+POST /api/client/servers/{server}/files/upload
+DELETE /api/client/servers/{server}/files/delete
+```
+
+## WebSocket Integration
+WebSockets provide real-time updates for these features:
+
+```javascript
+// Connect to server WebSocket
+const socket = new WebSocket(`ws://${window.location.host}/api/servers/${serverId}/ws`);
+
+// Message types
+// - status: server status updates
+// - stats: resource utilization stats
+// - console: console output lines
+// - file: file system events
+```
+
+## Chart.js Implementation
+Charts should be implemented with these configurations:
+
+```javascript
+// CPU Chart (line chart with area fill)
+new Chart(cpuChartElement, {
+    type: 'line',
+    data: {
+        datasets: [{
+            backgroundColor: 'rgba(49, 130, 206, 0.2)',
+            borderColor: '#3182ce',
+            data: cpuData
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        // Additional options from @preview.html (lines 3500-3600)
+    }
+});
+
+// Similar configurations for memory, network, and storage charts
+```
+
+## JavaScript Modules
+Structure the JavaScript in these modules:
+
+```
+@public/themes/pterodactyl/js/
+├── charts.js       // Chart.js implementations
+├── console.js      // Console functionality
+├── sidebar.js      // Sidebar behavior
+├── filemanager.js  // File operations
+└── utils.js        // Shared utilities
+```
+
+## Performance Optimizations
+Implement these optimization techniques:
+
+- Debounce WebSocket message handling (limit to 5 updates/sec)
+- Limit chart redrawing (use requestAnimationFrame)
+- Lazy-load file manager contents for directories
+- Implement virtualized lists for large file directories
+- Cache command history in localStorage
+- Use IntersectionObserver for lazy-loading UI elements
+
+## Technical Reference
+For complete technical specifications, see @cursor/JMF-Technical-Details.txt 

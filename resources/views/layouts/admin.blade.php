@@ -26,8 +26,9 @@
             {!! Theme::css('vendor/sweetalert/sweetalert.min.css?t={cache-version}') !!}
             {!! Theme::css('vendor/animate/animate.min.css?t={cache-version}') !!}
             {!! Theme::css('css/pterodactyl.css?t={cache-version}') !!}
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -42,7 +43,7 @@
                     <span>{{ config('app.name', 'Pterodactyl') }}</span>
                 </a>
                 <nav class="navbar navbar-static-top">
-                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" id="toggleSidebar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -68,57 +69,90 @@
             </header>
             <aside class="main-sidebar">
                 <section class="sidebar">
+                    <!-- Server Stats -->
+                    <div class="server-stats">
+                        <h3 class="text-lg font-bold mb-2">{{ config('app.name', 'Pterodactyl') }}</h3>
+                        
+                        <!-- CPU Usage -->
+                        <div class="stat-item mb-3">
+                            <i class="fa fa-microchip mr-2 text-blue-400" data-toggle="tooltip" title="CPU Usage"></i>
+                            <div class="flex-1">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm">CPU</span>
+                                    <span class="text-sm cpu-value">{{ number_format(sys_getloadavg()[0], 2) }}</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value cpu-bar" style="width: {{ min(100, sys_getloadavg()[0] * 10) }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Memory Usage -->
+                        <div class="stat-item mb-3">
+                            <i class="fa fa-memory mr-2 text-green-400" data-toggle="tooltip" title="Memory Usage"></i>
+                            <div class="flex-1">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm">RAM</span>
+                                    <span class="text-sm ram-value">{{ memory_get_usage(true) / 1024 / 1024 }}MB</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value ram-bar" style="width: 62.5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <ul class="sidebar-menu">
                         <li class="header">BASIC ADMINISTRATION</li>
                         <li class="{{ Route::currentRouteName() !== 'admin.index' ?: 'active' }}">
-                            <a href="{{ route('admin.index') }}">
+                            <a href="{{ route('admin.index') }}" class="sidebar-item">
                                 <i class="fa fa-home"></i> <span>Overview</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.settings') ?: 'active' }}">
-                            <a href="{{ route('admin.settings')}}">
+                            <a href="{{ route('admin.settings')}}" class="sidebar-item">
                                 <i class="fa fa-wrench"></i> <span>Settings</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.api') ?: 'active' }}">
-                            <a href="{{ route('admin.api.index')}}">
+                            <a href="{{ route('admin.api.index')}}" class="sidebar-item">
                                 <i class="fa fa-gamepad"></i> <span>Application API</span>
                             </a>
                         </li>
                         <li class="header">MANAGEMENT</li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.databases') ?: 'active' }}">
-                            <a href="{{ route('admin.databases') }}">
+                            <a href="{{ route('admin.databases') }}" class="sidebar-item">
                                 <i class="fa fa-database"></i> <span>Databases</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.locations') ?: 'active' }}">
-                            <a href="{{ route('admin.locations') }}">
+                            <a href="{{ route('admin.locations') }}" class="sidebar-item">
                                 <i class="fa fa-globe"></i> <span>Locations</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nodes') ?: 'active' }}">
-                            <a href="{{ route('admin.nodes') }}">
+                            <a href="{{ route('admin.nodes') }}" class="sidebar-item">
                                 <i class="fa fa-sitemap"></i> <span>Nodes</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.servers') ?: 'active' }}">
-                            <a href="{{ route('admin.servers') }}">
+                            <a href="{{ route('admin.servers') }}" class="sidebar-item">
                                 <i class="fa fa-server"></i> <span>Servers</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.users') ?: 'active' }}">
-                            <a href="{{ route('admin.users') }}">
+                            <a href="{{ route('admin.users') }}" class="sidebar-item">
                                 <i class="fa fa-users"></i> <span>Users</span>
                             </a>
                         </li>
                         <li class="header">SERVICE MANAGEMENT</li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.mounts') ?: 'active' }}">
-                            <a href="{{ route('admin.mounts') }}">
+                            <a href="{{ route('admin.mounts') }}" class="sidebar-item">
                                 <i class="fa fa-magic"></i> <span>Mounts</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
-                            <a href="{{ route('admin.nests') }}">
+                            <a href="{{ route('admin.nests') }}" class="sidebar-item">
                                 <i class="fa fa-th-large"></i> <span>Nests</span>
                             </a>
                         </li>

@@ -28,8 +28,8 @@ rm -rf ../../release/*
 mkdir ../../release
 
 # Move the files to releases
-mv ./NookTheme.tar.gz ../../release/panel.tar.gz
-mv ./NookTheme.zip ../../release/panel.zip
+mv ./JMFPanel.tar.gz ../../release/panel.tar.gz
+mv ./JMFPanel.zip ../../release/panel.zip
 
 # Remove the tmp folder
 cd ../../

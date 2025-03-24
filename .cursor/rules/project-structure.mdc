@@ -1,0 +1,39 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# JMF Hosting Panel Project Structure
+
+## Overview
+This project is enhancing the Pterodactyl game server panel with a modern UI from @preview.html. The goal is to create a dark-themed, responsive panel with real-time monitoring and improved user experience.
+
+## Core Architecture
+- **Backend**: Laravel PHP framework with MVC architecture
+- **Frontend**: Blade templates with TailwindCSS and JavaScript
+- **Real-time**: WebSocket connections for live updates
+- **Theme**: Dark mode with blue accents (#3182ce)
+
+## Key Files & Directories
+- [preview.html](mdc:preview.html) - Contains the development preview of the new design
+- @resources/views/ - Blade templates for UI components
+- @public/themes/pterodactyl/ - Theme assets (CSS, JS)
+- @app/Http/Controllers/ - Backend controllers
+- @routes/ - Web and API routes
+
+## Integration Approach
+1. Extract styles from @preview.html to theme CSS files
+2. Implement Blade templates for each component
+3. Connect to existing backend APIs
+4. Add JavaScript for interactivity
+
+## Reference Materials
+- [JMF-Structure.txt](mdc:cursor/JMF-Structure.txt) - Project structure details
+- [JMF-Components.txt](mdc:cursor/JMF-Components.txt) - UI component specifications
+- [JMF-Theme-Integration.txt](mdc:cursor/JMF-Theme-Integration.txt) - Theme implementation guide
+
+## Important Notes
+- Maintain compatibility with existing backend functionality
+- Ensure responsive design for all screen sizes
+- Follow Laravel conventions for all implementations
+- Use modular, component-based architecture 

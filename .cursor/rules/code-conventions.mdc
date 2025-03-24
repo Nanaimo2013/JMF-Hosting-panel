@@ -1,0 +1,138 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# JMF Hosting Panel Code Conventions
+
+## CSS Conventions
+- Use CSS variables for colors and repeated values
+- Follow BEM (Block Element Modifier) naming convention
+- Prefix custom classes with `jmf-` to avoid conflicts
+- Maintain alphabetical property order within rules
+- Use TailwindCSS utility classes when appropriate
+- Add comments for complex CSS blocks
+
+```css
+/* Example BEM naming convention */
+.jmf-sidebar {} /* Block */
+.jmf-sidebar__item {} /* Element */
+.jmf-sidebar__item--active {} /* Modifier */
+
+/* Example CSS variable usage */
+:root {
+  --primary: #1a1c23;
+  --accent: #3182ce;
+}
+
+.jmf-sidebar {
+  background-color: var(--primary);
+  border-color: var(--accent);
+}
+```
+
+## JavaScript Conventions
+- Use ES6 syntax for all new code
+- Create modular files with single responsibility
+- Use camelCase for variable and function names
+- Implement error handling for all API calls
+- Use async/await for asynchronous operations
+- Add JSDoc comments for functions
+
+```javascript
+/**
+ * Updates the server resource statistics
+ * @param {string} serverId - The server identifier
+ * @param {Object} stats - The resource statistics object
+ * @returns {void}
+ */
+const updateServerStats = async (serverId, stats) => {
+  try {
+    const elements = {
+      cpu: document.querySelector('.cpu-value'),
+      ram: document.querySelector('.ram-value'),
+      disk: document.querySelector('.storage-value')
+    };
+    
+    elements.cpu.textContent = `${stats.cpu.toFixed(1)}%`;
+    // Update other elements...
+  } catch (error) {
+    console.error('Failed to update server stats:', error);
+  }
+};
+```
+
+## Blade Template Conventions
+- Use component-based structure
+- Include descriptive comments
+- Maintain consistent indentation (4 spaces)
+- Use proper variable escaping for security
+- Follow Laravel naming conventions
+
+```blade
+{{-- Sidebar Component --}}
+<aside class="jmf-sidebar">
+    <div class="jmf-sidebar__header">
+        <h2 class="jmf-sidebar__title">{{ $server->name }}</h2>
+        <button class="jmf-sidebar__toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+    
+    {{-- Server Statistics --}}
+    <div class="jmf-sidebar__stats">
+        <div class="jmf-stat-item">
+            <span class="jmf-stat-item__label">CPU</span>
+            <div class="jmf-progress-bar">
+                <div class="jmf-progress-bar__value" style="width: {{ $server->cpu }}%"></div>
+            </div>
+        </div>
+        {{-- Additional stats... --}}
+    </div>
+</aside>
+```
+
+## PHP Controller Conventions
+- Follow PSR-2 coding standards
+- Use type hints for parameters and return types
+- Implement proper input validation
+- Return structured JSON responses
+- Add PHPDoc blocks for methods
+
+```php
+/**
+ * Get the resource utilization for a server.
+ *
+ * @param Request $request
+ * @param string $server
+ * @return JsonResponse
+ */
+public function utilization(Request $request, string $server): JsonResponse
+{
+    try {
+        $stats = $this->repository->getUtilization($server);
+        
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'cpu' => $stats->cpu,
+                'memory' => $stats->memory,
+                'disk' => $stats->disk,
+                'network' => $stats->network,
+            ],
+        ]);
+    } catch (\Exception $exception) {
+        return response()->json([
+            'success' => false,
+            'error' => $exception->getMessage(),
+        ], 500);
+    }
+}
+```
+
+## File Organization
+- Keep related functionality in the same directory
+- Use clear, descriptive file names
+- Follow Laravel's naming conventions
+- Group related styles in CSS files
+- Create separate JS modules for each component 

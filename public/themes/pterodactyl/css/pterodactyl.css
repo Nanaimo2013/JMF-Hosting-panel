@@ -22,8 +22,91 @@
  */
  @import 'checkbox.css';
 
+ :root {
+    --primary: #1a1c23;
+    --secondary: #2d3748;
+    --accent: #3182ce;
+    --text: #e2e8f0;
+    --success: #48bb78;
+    --danger: #f56565;
+    --warning: #ed8936;
+}
+
+/* Apply custom scrollbars globally */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) rgba(45, 55, 72, 0.3);
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(45, 55, 72, 0.3);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #4299e1;
+}
+
+/* Fix sidebar width */
+.sidebar {
+    background-color: var(--secondary);
+    width: fit-content;
+    min-width: 280px;
+    max-width: 280px;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: min-content;
+}
+
+.sidebar.minimized {
+    width: 64px;
+    min-width: 64px;
+}
+
+.sidebar.minimized .sidebar-item span,
+.sidebar.minimized .server-stats,
+.sidebar.minimized .power-buttons span {
+    display: none;
+}
+
+.sidebar.minimized .sidebar-item {
+    padding: 0.75rem;
+    justify-content: center;
+}
+
+.sidebar.minimized .power-buttons {
+    flex-direction: column;
+    min-width: unset;
+}
+
+.sidebar.minimized .power-buttons .btn {
+    padding: 0.5rem;
+    width: 40px;
+    height: 40px;
+}
+
 .login-page {
-    background: #10529f;
+    background: var(--primary);
 }
 
 #login-position-elements {
